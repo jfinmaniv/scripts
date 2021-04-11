@@ -1,0 +1,3 @@
+#! /bin/sh
+ 
+/cygdrive/c/Users/jfin/unix/Pandoc/pandoc.exe "$@"

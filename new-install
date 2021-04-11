@@ -1,0 +1,50 @@
+#!/bin/sh
+
+/usr/bin/git config --global user.name "John Inman"
+/usr/bin/git config --global user.email jfinmaniv@icloud.com
+/usr/bin/git config --global credential.helper store
+
+/usr/bin/git clone --bare https://github.com/jfinmaniv/dotfiles $HOME/.dotfiles
+function dot {
+   /usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME "$@"
+}
+
+dot checkout msys
+
+if [ "$?" = 0 ]; then
+  echo "Checked out dot files."
+  else
+    mkdir dotfiles.bak
+    echo "Backing up pre-existing dot files."
+	dot checkout msys 2>&1 \
+    | egrep "\s+\." \
+    | awk {'print $1'} \
+    | xargs -I{} mv {} dotfiles.bak/{}
+fi;
+
+dot checkout msys
+dot config --local status.showUntrackedFiles no
+dot push --set-upstream origin msys
+
+/usr/bin/wget -O /etc/zshrc https://git.grml.org/f/grml-etc-core/etc/zsh/zshrc
+
+/usr/bin/lynx -source rawgit.com/transcode-open/apt-cyg/master/apt-cyg > apt-cyg
+/usr/bin/install apt-cyg /bin
+
+/usr/bin/apt-cyg install tmux zsh 
+
+/usr/bin/apt-cyg install vim python37 # gvim # for clipboard support
+mkdir $HOME/.vim/undo 
+
+for p in $(cat $HOME/.vim/plugins) 
+do 
+    /usr/bin/git clone https://github.com/"$p" \
+    $HOME/.vim/pack/plug/start/$(echo "$p" | sed -e 's/.*\///')
+done
+
+/usr/bin/apt-cyg install python37-pip
+/usr/bin/pip3 install ranger-fm
+
+/usr/bin/apt-cyg install xinit xsel
+/usr/bin/apt-cyg install procps unzip
+

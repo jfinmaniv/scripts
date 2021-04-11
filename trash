@@ -1,0 +1,22 @@
+#!/bin/sh
+
+timestamp="$(date +'%Y%m%d%H%M%S')"
+
+for file in "$@"
+do
+	# rm links
+	if [ -h "$file" ]
+	then
+		\\rm "$file"
+		continue
+	fi
+
+	# timestamp duplicates
+	name=$(basename "$file")
+    if [ ! -e "$HOME"/trash/"$name" ]
+    then
+        mv "$file" "$HOME"/trash
+    else
+        mv "$file" "$HOME"/trash/"$name"-"$timestamp"
+    fi
+done
