@@ -1,0 +1,6 @@
+#!/bin/sh
+
+FILE="${1%%.*}"
+EXT="${1#*.}"
+DATE=$(date +'%Y-%m-%d')
+cp --backup=numbered "$1" "$FILE"-"$DATE"."$EXT"

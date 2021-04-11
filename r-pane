@@ -1,0 +1,7 @@
+#!/bin/sh
+
+WD=$PWD
+tmux split-window -h -c '#{pane_current_path}'
+tmux select-layout main-vertical 
+tmux send-keys -l R
+tmux select-pane -t {last}
