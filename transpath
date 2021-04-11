@@ -1,0 +1,10 @@
+#!/bin/sh
+# translate paths from local to remote
+
+# is pattern:
+local=c\/Users\/JInman\/waterboard\/network-copies
+
+# is string:
+remote=r/RB3/Shared
+
+echo -n "${1/$local/$remote}"

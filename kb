@@ -1,0 +1,7 @@
+#!/bin/sh
+
+# see man bash, READLINE section
+
+echo '
+  <---  C-a  M-b  C-b  |  C-f  M-f  C-e  --->
+  <xxx  C-u  M-BS BS   |  C-d  M-d  C-k  xxx>'

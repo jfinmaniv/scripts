@@ -1,0 +1,5 @@
+#!/bin/sh
+
+DOC="${1%.md}"
+
+pandoc --to=revealjs -s --slide-level=2 "${DOC}".md --output="${DOC}".html

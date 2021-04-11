@@ -1,0 +1,6 @@
+#!/bin/sh
+# connect network drives
+
+cmd //c 'net use h: \\wb-rb3-file-01\home$\JInman /y'
+cmd //c 'net use r: \\ca.epa.local\RB /y'
+cmd //c 'net use s: \\ca.epa.local\SB /y'

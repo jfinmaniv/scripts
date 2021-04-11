@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+# Copyright (C) 2014, Alexey Pavlov
+#   mailto:alexpux@gmail.com
+# This file is part of Minimal SYStem version 2.
+#   https://sourceforge.net/p/msys2/wiki/MSYS2%20installation/
+# File: start
+
+# original script at /usr/bin/start
+
+# jfin modified to circumvent .pdf file association with adobe
+
+
+ext="${1##*.}"
+
+if [ "$ext" = "pdf" ]
+then
+	sumatra-pdf "$1"
+else
+	# the substitution escapes potential windows command characters
+	cmd //c start "${@//&/^&}"
+fi

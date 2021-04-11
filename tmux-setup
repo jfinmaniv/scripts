@@ -1,0 +1,5 @@
+#!/bin/sh
+
+w=$(tmux display-message -p '#{window_width}')
+m=$(expr $w \* 6 / 10)
+tmux set-window-option -g main-pane-width " $m"
