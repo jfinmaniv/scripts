@@ -1,0 +1,23 @@
+#!/bin/sh
+
+if [ -e /sys/class/backlight/intel_backlight ]
+then
+	graphics=intel_backlight
+else
+	graphics=nvidia_0
+fi
+
+current=$(</sys/class/backlight/$graphics/brightness)
+higher=$(expr $current \* 2)
+max=$(</sys/class/backlight/$graphics/max_brightness)
+
+if [ $higher -eq  0 ]; then
+	higher=1
+fi
+
+if [ $higher -le $max ]; then
+	echo $higher > /sys/class/backlight/$graphics/brightness
+else
+	echo $max > /sys/class/backlight/$graphics/brightness
+fi
+

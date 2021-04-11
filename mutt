@@ -1,0 +1,6 @@
+#! /bin/sh
+# neomutt wrapper
+
+cd $HOME/downloads/
+/usr/bin/mutt $@
+cd $HOME
