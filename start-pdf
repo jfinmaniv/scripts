@@ -10,12 +10,18 @@
 # jfin modified to circumvent .pdf file association with adobe
 
 
+# get last argument
+# for file in "$@"
+# do 
+# 	true
+# done
+
 ext="${1##*.}"
 
 if [ "$ext" = "pdf" ]
 then
-	sumatra-pdf "$1"
+	sumatra-pdf "$1" &
 else
-	# the substitution escapes potential windows command characters
-	cmd //c start "${@//&/^&}"
+	# the substitution escapes potential windows "command" characters
+	cmd //c start "" "${@//&/^&}"
 fi

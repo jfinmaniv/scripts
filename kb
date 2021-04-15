@@ -3,7 +3,6 @@
 # see man bash, READLINE section
 
 echo '
-					   
                  C-r
                  C-p
                  C-n 
@@ -12,5 +11,4 @@ echo '
   C-u  M-BS BS        C-d  M-d  C-k
                 (C-_)
                  C-y 
-                 M-y 
-'
+                 M-y'
