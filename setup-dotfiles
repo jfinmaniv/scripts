@@ -1,0 +1,24 @@
+#!/bin/sh
+
+git clone --bare https://github.com/jfinmaniv/dotfiles $HOME/.dot.git
+
+function dot {
+   git --git-dir=$HOME/.dot.git/ --work-tree=$HOME "$@"
+}
+
+dot checkout obsd
+
+if [ "$?" = 0 ]; then
+	echo "Checked out dot files."
+	else
+		mkdir dotfiles.bak
+		echo "Backing up pre-existing dot files."
+		dot checkout obsd 2>&1 \
+			| egrep "\s+\." \
+			| awk {'print $1'} \
+			| xargs -I{} mv {} dotfiles.bak/{}
+fi;
+
+dot checkout obsd
+dot config --local status.showUntrackedFiles no
+# dot push --set-upstream origin obsd

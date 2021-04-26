@@ -13,9 +13,8 @@ signal=$(print $net_info | egrep -o '([0-9]+%)')
 [[ -n $signal ]] && network="$nwid ${signal} | " || network=""
 
 # disk -------------------------------------------------------------------------
-disk_free=$(df -h /home | awk 'FNR == 2 {print $4}')
-let disk_int=$(print $disk_free | sed 's/\..*//')
-(( $disk_int <= 5 )) && disk_warn="disk $disk_free | " || disk_warn=""
+disk_free=$(df /home | awk 'FNR == 2 {print $4}')
+(( $disk_free <= 5242880 )) && disk_warn="disk $disk_free | " || disk_warn=""
 
 # memory -----------------------------------------------------------------------
 mem_use=$(vmstat | awk 'FNR == 3 {print $3}')

@@ -1,0 +1,5 @@
+#!/bin/sh
+
+ulimit -d $(( 32 * 1024 * 1024 )) # maximum memory
+cabal update
+cabal install pandoc

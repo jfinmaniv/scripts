@@ -1,35 +1,63 @@
 #!/bin/sh
 
+# get user{{{
+read user?'user: '
+#}}}
+# setup git{{{
+pkg_add git
+doas -u $user '
 git config --global user.name "John Inman"
 git config --global user.email jfinmaniv@icloud.com
 git config --global credential.helper store
-
-git clone --bare https://github.com/jfinmaniv/dotfiles $HOME/.dot.git
-function dot {
-   git --git-dir=$HOME/.dot.git/ --work-tree=$HOME "$@"
+'
+#}}}
+# install scripts{{{
+cd /home/$user
+doas -u $user '
+git clone https://github.com/jfinmaniv/scripts 
+cd scripts
+git checkout obsd
+'
+#}}}
+# install dotfiles{{{
+doas -u $user /home/$user/scripts/setup-dotfiles
+#}}}
+# setup /etc{{{
+git clone --bare https://github.com/jfinmaniv/etc /etc/.etc.git
+function etc {
+   git --git-dir=/etc/.etc.git/ --work-tree=/etc "$@"
 }
 
-dot checkout obsd
+cd /etc
+etc checkout obsd
 
 if [ "$?" = 0 ]; then
-  echo "Checked out dot files."
-  else
-    mkdir dotfiles.bak
-    echo "Backing up pre-existing dot files."
-	dot checkout obsd 2>&1 \
-    | egrep "\s+\." \
-    | awk {'print $1'} \
-    | xargs -I{} mv {} dotfiles.bak/{}
+	echo "Checked out dot files."
+	else
+		mkdir etc.bak
+		echo "Backing up pre-existing etc files."
+		etc checkout obsd 2>&1 \
+			| egrep "\s+\." \
+			| awk {'print $1'} \
+			| xargs -I{} mv {} etc.bak/{}
 fi;
 
-dot checkout obsd
-dot config --local status.showUntrackedFiles no
-dot push --set-upstream origin obsd
-
-for p in $(cat $HOME/.vim/plugins) 
-do 
-    git clone https://github.com/"$p" \
-    $HOME/.vim/pack/plug/start/$(echo "$p" | sed -e 's/.*\///')
-done
-
-# pkg_add tmux python python-pip procps fzy
+etc checkout obsd
+etc config --local status.showUntrackedFiles no
+#}}}
+# set up vim{{{
+doas pkg_add vim
+cd /home/$user
+doas -u $user /home/$user/setup-vim
+#}}}
+# set up python{{{
+ln -s /usr/local/python3 /usr/local/python
+#}}}
+# pandoc{{{
+pkg_add ghc cabal-install
+doas -u $user /home/$user/scripts/setup-pandoc
+ln -s /home/$user/.cabal/bin/pandoc /usr/local/bin
+#}}}
+# other{{{
+pkg_add tmux python python-pip procps fzy texlive_texmf-full
+#}}}
