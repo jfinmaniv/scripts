@@ -1,0 +1,15 @@
+#!/bin/sh
+
+# echo corresponding local   location of the $PWD
+
+local="/home/jfin/netdrives-copy"
+remote="/r/RB3/Shared"
+
+# if root of $PWD is same as $remote
+if [ "${PWD:0:${#remote}}" != "$remote" ] 
+then
+	exit
+else
+	echo "$local${PWD#$remote}"
+fi
+
