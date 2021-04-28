@@ -15,9 +15,7 @@
  
 # We have ommitted the --links, --devices, and --specials options since msys2
 # does not support symlinks and the networked drives do not contain any device
-# or special files that we are interested in. We have added the --progress
-# option to add a progress bar and the --human-readable option so that file
-# sizes are reported in k, M, and G rather than in bytes.
+# or special files that we are interested in.
 
 rsync \
 	--recursive \
@@ -26,6 +24,5 @@ rsync \
 	--group \
 	--owner \
 	--verbose \
-	--progress \ 		
-	--human-readable \
 	"$@"
+

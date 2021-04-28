@@ -1,15 +1,16 @@
 #!/bin/sh
 
-# echo corresponding local   location of the $PWD
+# rtl, remote to local
+# translate remote path to local path
 
 local="/home/jfin/netdrives-copy"
 remote="/r/RB3/Shared"
 
 # if root of $PWD is same as $remote
-if [ "${PWD:0:${#remote}}" != "$remote" ] 
+if [ "${1:0:${#remote}}" != "$remote" ] 
 then
 	exit
 else
-	echo "$local${PWD#$remote}"
+	echo -n "$local${1#$remote}"
 fi
 
