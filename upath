@@ -1,4 +1,0 @@
-#!/bin/sh
-# translate paths from windows to unix
-
-cd "$1" && echo "$PWD"

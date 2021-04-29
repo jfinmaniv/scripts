@@ -1,4 +1,4 @@
 #!/bin/sh
 # go to remote mirror of $PWD
 
-cd "$(ltr "$PWD")"
+cd "$(local-to-remote "$PWD")"

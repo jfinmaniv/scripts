@@ -1,4 +1,0 @@
-#!/bin/sh
-# translate paths from unix to windows
-
-echo $(cd "$1" && cmd //c cd)

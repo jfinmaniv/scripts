@@ -1,9 +1,10 @@
 #!/bin/sh
 
-timestamp="$(date +'%Y%m%d%H%M%S')"
+timestamp=$(date +'%Y%m%d%H%M%S')
 
 for file in "$@";
 do
+	file=${file%/} # remove trailing slash of directories
 	if [ ! -e "$HOME"/trash/"$file" ]
 	then
 		mv "$file" "$HOME"/trash

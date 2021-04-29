@@ -1,6 +1,0 @@
-#!/bin/bash
-
-path=$(echo "$1" | tr ' ' ':')
-path=$(cygpath $path)
-path=$(echo $path | tr ':' ' ')
-cd "$path"
