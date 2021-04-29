@@ -2,16 +2,24 @@
 
 # Download clip. I used this one:
 # https://www.youtube.com/watch?v=bhWJF9FlBqM
-# youtube-dl\
-#     --extract-audio\
-#     --audio-quality 0\
-#     --audio-format "mp3"\
-#     --output "orig.%(ext)s"\
-# 	"https://www.youtube.com/watch?v=bhWJF9FlBqM"
 
-# It was 60 minutes long but I wanted an 90-minute track. The first step would
-# be to loop it but the track has a fade in so I had to clip this out first. I
-# made the track 45 minutes so the looping step would have simple math:
+youtube-dl\
+    --extract-audio\
+    --audio-quality 0\
+    --audio-format "mp3"\
+    --output "orig.%(ext)s"\
+	"https://www.youtube.com/watch?v=bhWJF9FlBqM"
+
+# It was XX minutes long but I wanted an YY-minute track. The first step would
+# be to loop it but the track has a SS second fade in so I had to clip this out first. I
+# made the clip ZZ minutes long so that N loops would result in the desired
+# length.
+
+XX=60
+YY=60
+ZZ=30
+SS=10
+N=2
 
 if [ ! -e orig.mp3 ]
 then
@@ -20,8 +28,8 @@ then
 fi
 
 ffmpeg\
-	-ss 60\
-	-t 2700\
+	-ss $SS\ # clip off the 10 second fade in
+	-t $(( $ZZ * 60 ))\ # length in seconds
 	-i orig.mp3\
 	-acodec copy\
 	clip.mp3
@@ -33,15 +41,20 @@ then
 	exit
 fi
 
-echo "file clip.mp3" >> ./concat.txt
-echo "file clip.mp3" >> ./concat.txt
+i=1
+echo "" > ./concat.txt
+while (( i <= $N ))
+do
+	echo "file clip.mp3" >> ./concat.txt
+done
+
 ffmpeg\
 	-f concat\
 	-i concat.txt\
 	-c copy\
 	concat.mp3
 
-# finally I re-added a 10-second fade-in and fade-out
+# finally I re-added a SS-second fade-in and fade-out
 if [ ! -e concat.mp3 ]
 then
 	echo "Something went wrong. No concat.mp3"
@@ -50,7 +63,7 @@ fi
 
 ffmpeg.exe\
 	-i concat.mp3\
-	-af "afade=t=in:st=0:d=10,afade=t=out:st=4790:d=10"\
+	-af "afade=t=in:st=0:d=$SS,afade=t=out:st=$(( $YY * 60 - $SS )):d=$SS"\
 	fade.mp3
 
 # clean up
