@@ -3,7 +3,7 @@
 # ltr: local to remote 
 # translate local path to remote path
 
-local="/home/jfin/netdrives-copy"
+local="/home/jfin/rdrive"
 remote="/r/RB3/Shared"
 
 # if root of $PWD is same as $local
