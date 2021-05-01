@@ -1,5 +1,9 @@
 #!/bin/sh
 
+rcctl enable apmd
+doas rcctl set apmd flags -A
+rcctl start apmd
+
 # get user{{{
 read user?'user: '
 #}}}
@@ -23,7 +27,7 @@ git checkout obsd
 doas -u $user /home/$user/scripts/setup-dotfiles
 #}}}
 # setup /etc{{{
-git clone --bare https://github.com/jfinmaniv/etc /etc/.etc.git
+git clone https://github.com/jfinmaniv/etc /etc/.etc.git
 function etc {
    git --git-dir=/etc/.etc.git/ --work-tree=/etc "$@"
 }
