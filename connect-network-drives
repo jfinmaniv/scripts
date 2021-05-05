@@ -1,9 +1,9 @@
 #!/bin/sh
 # connect network drives
 
-echo cmd //c \'net use h: \\wb-rb3-file-01\home$\JInman /y\'
+printf '%s\n' "cmd //c net use h: \\wb-rb3-file-01\home$\JInman /y"
 cmd //c 'net use h: \\wb-rb3-file-01\home$\JInman /y'
-echo cmd //c \'net use r: \\ca.epa.local\RB /y\'
+printf '%s\n' "cmd //c net use r: \\ca.epa.local\RB /y"
 cmd //c 'net use r: \\ca.epa.local\RB /y'
-echo cmd //c \'net use s: \\ca.epa.local\SB /y\'
+printf '%s\n' "cmd //c net use s: \\ca.epa.local\SB /y"
 cmd //c 'net use s: \\ca.epa.local\SB /y'
