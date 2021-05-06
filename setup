@@ -1,8 +1,12 @@
 #!/bin/sh
 
 rcctl enable apmd
-doas rcctl set apmd flags -A
+rcctl set apmd flags -A
 rcctl start apmd
+
+# /usr/local/share/doc/pkg-readmes/firefox
+sysctl kern.audio.record=1
+chown jfin /dev/video0
 
 # get user{{{
 read user?'user: '

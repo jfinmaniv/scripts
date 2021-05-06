@@ -1,0 +1,73 @@
+#! /bin/ksh
+# status bar
+
+# colors
+red="%{F#f00}"
+yellow="%{F#ff0}"
+gray="%{F#888}"
+clear="%{F-}"
+
+# unicode blocks
+block14='\xe2\x96\x82' 
+block24='\xe2\x96\x84' 
+block34='\xe2\x96\x86' 
+block44='\xe2\x96\x88' 
+
+# group 
+group="$(xdotool get_desktop)"
+
+# window
+win="$(xdotool getactivewindow getwindowname)"
+
+# network
+wired=$(ifconfig em0 | awk '/status:/ { print $2 }')
+signal=$(ifconfig iwm0 | awk '/ieee80211:/ { print $8 }')
+sig=${signal%\%}
+if [ $wired = active ]
+then
+	net=""
+elif [ $sig -ge 90 ]
+then
+	net="$block14$block24$block34$block44"
+elif [ $sig -ge 80 ]
+then
+	net="$block14$block24$block34$gray$block44$clear"
+elif [ $sig -ge 70 ]
+then
+	net="$block14$block24$gray$block34$block44$clear"
+elif [ $sig -ge 60 ]
+then
+	net="$block14$gray$block24$block34$block44$clear"
+elif [ $sig -ge 50 ]
+then
+	net="$gray$block14$block24$block34$block44$clear"
+else
+	net="$yellow$block14$block24$block34$block44$clear"
+fi
+
+# battery
+if [ $(apm -a) -eq 1 ]
+then
+	bat=""
+elif [ $(apm -l) -ge 90 ]
+then
+	bat="$block44$block44$block44$block44"
+elif [ $(apm -l) -ge 75 ]
+then
+	bat="$block44$block44$block44$gray$block44$clear"
+elif [ $(apm -l) -ge 50 ]
+then
+	bat="$block44$block44$gray$block44$block44$clear"
+elif [ $(apm -l) -ge 25 ]
+then
+	bat="$block44$gray$block44$block44$block44$clear"
+elif [ $(apm -l) -ge 10 ]
+then
+	bat="$yellow$block44$clear$gray$block44$block44$block44$clear"
+else
+	bat="$red$block44$block44$block44$block44$clear"
+fi
+
+time="$(date '+%H:%M')"
+
+printf '%b\n' "%{l} $group:$win%{r}$net $bat $time "

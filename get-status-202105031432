@@ -1,6 +1,9 @@
 #! /bin/ksh
 # status bar
 
+# tmux mode --------------------------------------------------------------------
+[[ $(< $HOME/.tmux-mode) = on ]] && tmode="tmux | " || tmode=
+
 # network ----------------------------------------------------------------------
 net_info=$(ifconfig iwm0)
 # heredoc using "<<-" strips tabs allowing for long yet readable commands
@@ -37,9 +40,22 @@ let batt_perc=$(apm -l)
 time=$(date '+%a %b %e %H:%M')
 
 # statusline -------------------------------------------------------------------
-xsetroot -name "${network}${disk_warn}${mem_warn}${cpu_warn}${batt_warn}${time}"
-# print "${network}${disk_warn}${mem_warn}${cpu_warn}${batt_warn}${time}"
+echo "%{r}${tmode}${network}${disk_warn}${mem_warn}${cpu_warn}${batt_warn}${time}"
 
 # battery warning --------------------------------------------------------------
-pgrep -f batt-blink && pkill -f batt-blink 
-(( $batt_perc <= 10 )) && /home/jfin/scripts/batt-blink &
+# pgrep -f batt-blink && pkill -f batt-blink 
+# (( $batt_perc <= 10 )) && /home/jfin/scripts/batt-blink &
+
+# arch wiki lemonbar
+# Define the clock
+# Clock() {
+#         DATETIME=$(date "+%a %b %d, %T")
+#         echo -n "$DATETIME"
+# }
+
+# Print the clock
+
+# while true; do
+#         echo "%{c}%{F#FFFF00}%{B#0000FF} $(Clock) %{F-}%{B-}"
+#         sleep 1
+# done
