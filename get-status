@@ -1,25 +1,26 @@
-#! /bin/ksh
+#! /bin/sh
 # status bar
 
-# colors
+# colors{{{
 red="%{F#f00}"
 yellow="%{F#ff0}"
 gray="%{F#888}"
-clear="%{F-}"
-
-# unicode blocks
+uncolor="%{F-}"
+#}}}
+# unicode blocks{{{
 block14='\xe2\x96\x82' 
 block24='\xe2\x96\x84' 
 block34='\xe2\x96\x86' 
 block44='\xe2\x96\x88' 
+#}}}
 
-# group 
+# group {{{
 group="$(xdotool get_desktop)"
-
-# window
+#}}}
+# window{{{
 win="$(xdotool getactivewindow getwindowname)"
-
-# network
+#}}}
+# network{{{
 wired=$(ifconfig em0 | awk '/status:/ { print $2 }')
 signal=$(ifconfig iwm0 | awk '/ieee80211:/ { print $8 }')
 sig=${signal%\%}
@@ -31,21 +32,21 @@ then
 	net="$block14$block24$block34$block44"
 elif [ $sig -ge 80 ]
 then
-	net="$block14$block24$block34$gray$block44$clear"
+	net="$block14$block24$block34$gray$block44$uncolor"
 elif [ $sig -ge 70 ]
 then
-	net="$block14$block24$gray$block34$block44$clear"
+	net="$block14$block24$gray$block34$block44$uncolor"
 elif [ $sig -ge 60 ]
 then
-	net="$block14$gray$block24$block34$block44$clear"
+	net="$block14$gray$block24$block34$block44$uncolor"
 elif [ $sig -ge 50 ]
 then
-	net="$gray$block14$block24$block34$block44$clear"
+	net="$gray$block14$block24$block34$block44$uncolor"
 else
-	net="$yellow$block14$block24$block34$block44$clear"
+	net="$yellow$block14$block24$block34$block44$uncolor"
 fi
-
-# battery
+#}}}
+# battery{{{
 if [ $(apm -a) -eq 1 ]
 then
 	bat=""
@@ -54,20 +55,22 @@ then
 	bat="$block44$block44$block44$block44"
 elif [ $(apm -l) -ge 75 ]
 then
-	bat="$block44$block44$block44$gray$block44$clear"
+	bat="$block44$block44$block44$gray$block44$uncolor"
 elif [ $(apm -l) -ge 50 ]
 then
-	bat="$block44$block44$gray$block44$block44$clear"
+	bat="$block44$block44$gray$block44$block44$uncolor"
 elif [ $(apm -l) -ge 25 ]
 then
-	bat="$block44$gray$block44$block44$block44$clear"
+	bat="$block44$gray$block44$block44$block44$uncolor"
 elif [ $(apm -l) -ge 10 ]
 then
-	bat="$yellow$block44$clear$gray$block44$block44$block44$clear"
+	bat="$yellow$block44$uncolor$gray$block44$block44$block44$uncolor"
 else
-	bat="$red$block44$block44$block44$block44$clear"
+	bat="$red$block44$block44$block44$block44$uncolor"
 fi
-
+#}}}
+# time{{{
 time="$(date '+%H:%M')"
+#}}}
 
 printf '%b\n' "%{l} $group:$win%{r}$net $bat $time "
