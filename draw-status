@@ -1,4 +1,4 @@
 #!/bin/sh
-# draw status bar
 
 lemonbar-xft -p -n statusbar -f "Terminus:size=20"
+
