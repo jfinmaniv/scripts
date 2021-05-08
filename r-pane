@@ -1,6 +1,0 @@
-#!/bin/sh
-
-tmux split-window -h 
-tmux select-layout main-vertical 
-tmux send-keys R Enter
-tmux select-pane -t .+

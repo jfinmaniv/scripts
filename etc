@@ -1,3 +1,0 @@
-#!/bin/sh
-
-doas git --git-dir=/etc/.etc.git/ --work-tree=/etc "$@"
