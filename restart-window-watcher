@@ -1,0 +1,4 @@
+#!/bin/sh
+
+pkill -HUP -f [s]cripts/get-status
+pkill -HUP -f [s]cripts/watch-window-name

@@ -1,4 +1,17 @@
 #!/bin/sh
 
-lemonbar-xft -p -n statusbar -f "Terminus:size=16"
+xterm\
+	-b 3\
+	-bg '#000000'\
+	-fa 'xft:terminus:size=16:weight=bold'\
+	-fg '#ffffff'\
+	-geometry '174x1+0+0'\
+	-hold\
+	-title 'statusbar'\
+	-class 'statusbar'\
+	-e 'get-status' &
 
+watch-window-name &
+temp=$(mktemp)
+xprop -spy -root _NET_ACTIVE_WINDOW > "$temp" &
+echo "$temp" | entr -np restart-window-watcher &
