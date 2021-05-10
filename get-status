@@ -1,7 +1,6 @@
 #! /bin/sh
 # status bar
 
-# colors and shapes
 # colors{{{
 red="\e[1;31m"
 yellow="\e[1;33m"
@@ -14,18 +13,15 @@ block24='\xe2\x96\x84'
 block34='\xe2\x96\x86' 
 block44='\xe2\x96\x88' 
 #}}}
-
-# status bar components
 # group {{{
 Group() {
-	var="$(xprop -root _NET_CURRENT_DESKTOP | awk '{ print $3 }')"
+	var="$(xdotool get_desktop)"
 	printf '%d' "$var"
 }
 #}}}
 # window{{{
 Win() {
-	winid="$(xprop -root _NET_ACTIVE_WINDOW | awk '{ print $5 }')"
-	var="$(xprop -id $winid WM_NAME | awk '{ print $3 }')"
+	var="$(xdotool getactivewindow getwindowname)"
 	printf '%b' "$var"
 }
 #}}}
@@ -90,8 +86,6 @@ Time() {
 	printf '%s' "$var" 
 }
 #}}}
-
-# print status
 # print left{{{
 print_left() {
 	tput cup 1 0

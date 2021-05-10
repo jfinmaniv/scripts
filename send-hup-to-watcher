@@ -1,0 +1,3 @@
+#!/bin/sh
+
+pkill -HUP -f /home/jfin/scripts/watch-window-name

@@ -4,8 +4,9 @@ temp=$(mktemp)
 trap 'kill $(jobs -p)' HUP
 while true
 do
-	winid=$(xprop -root _NET_ACTIVE_WINDOW | awk '{ print $5 }')
+	# winid=$(xprop -root _NET_ACTIVE_WINDOW | awk '{ print $5 }')
+	winid=$(xdotool getactivewindow)
 	xprop -spy -id $winid WM_NAME > "$temp" &
-	echo "$temp" | entr -np restart-window-watcher &
+	echo "$temp" | entr -np send-hup-to-status &
 	wait
 done

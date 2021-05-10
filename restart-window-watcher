@@ -1,4 +1,4 @@
 #!/bin/sh
 
 pkill -HUP -f [s]cripts/get-status
-pkill -HUP -f [s]cripts/watch-window-name
+pkill -f jfin/scripts/watch-window-name && watch-window-name &
