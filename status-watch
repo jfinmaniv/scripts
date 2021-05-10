@@ -1,0 +1,15 @@
+#!/bin/sh
+
+root_exists="$(xprop -root _NET_ACTIVE_WINDOW)"
+no="_NET_ACTIVE_WINDOW:  no such atom on any window."
+
+while [ "$root_exists" = "$no" ]
+do
+	sleep 1 &
+	wait
+done
+
+temp_active=$(mktemp)
+xprop -spy -root _NET_ACTIVE_WINDOW > "$temp_active" &
+status-watch-name "$temp_active" &
+echo "$temp_active" | entr -np status-send-hup 
