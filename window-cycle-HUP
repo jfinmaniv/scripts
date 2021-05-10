@@ -1,4 +1,0 @@
-#!/bin/sh
-
-pkill -HUP -f /home/jfin/scripts/get-status
-xdotool key ctrl+alt+j
