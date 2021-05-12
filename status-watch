@@ -1,15 +1,40 @@
 #!/bin/sh
+# status-watch
 
-root_exists="$(xprop -root _NET_ACTIVE_WINDOW)"
-no="_NET_ACTIVE_WINDOW:  no such atom on any window."
+# Set trap before log file watchers to avoid terminating.  
+# This trap breaks the name watcher loop,  kills the existing name watcher,
+# then renters name watcher loop.
 
-while [ "$root_exists" = "$no" ]
+trap 'pkill -f WM_NAME' HUP
+
+# create log files
+active_log=$(mktemp)
+name_log=$(mktemp)
+
+# start active window watcher
+# outputs to active_log
+sleep 1
+xprop -spy -root _NET_ACTIVE_WINDOW > "$active_log" &
+
+# start window name watcher
+# outputs to name_log
+sleep 1
+win_id="$(tail -n 1 "$active_log" | awk '{ print $5 }')"
+xprop -spy -id "$win_id" WM_NAME > "$name_log" &
+
+# start log file watchers
+# if active window changes then update name watcher:
+echo "$active_log"\
+	| entr -np pkill -HUP -f [b]in.*status-watch &
+# if window name changes then update status bar:
+sleep 1 # wait for name log to populate so 
+echo "$name_log"\
+	| entr -np pkill -HUP -f [b]in.*status-print &
+
+# name watch loop
+while true
 do
-	sleep 1 &
+	win_id="$(tail -n 1 "$active_log" | awk '{ print $5 }')"
+	xprop -spy -id "$win_id" WM_NAME > "$name_log" &
 	wait
 done
-
-temp_active=$(mktemp)
-xprop -spy -root _NET_ACTIVE_WINDOW > "$temp_active" &
-status-watch-name "$temp_active" &
-echo "$temp_active" | entr -np status-send-hup 

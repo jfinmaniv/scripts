@@ -29,7 +29,7 @@ Group() {
 # window{{{
 Win() {
 	var="$(xdotool getactivewindow getwindowname)"
-	if [ $var = statusbar ]
+	if [ "$var" = "statusbar" ]
 	then
 		var=""
 	fi
@@ -98,18 +98,12 @@ Time() {
 }
 #}}}
 
-# construct bar
-print_status() { #{{{
-	printf '%s\n' "$(Group):$(Win)%{r}$(Net)$(Bat)$(Time)"
-	sleep 60
-}
-#}}}
-
 # print loop
-trap 'kill $(jobs -p)' HUP #{{{
+trap : HUP #{{{
 while true
 do
-	print_status &
+	printf '%s\n' "$(Group):$(Win)%{r}$(Net)$(Bat)$(Time)"
+	sleep 60 &
 	wait
 done
 #}}}
