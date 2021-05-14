@@ -1,0 +1,30 @@
+#!/bin/sh
+
+# Reset in case getopts has been used previously in the shell.
+OPTIND=1         
+
+# Set path type default to unix
+format='-u'
+
+# opts that have a colon, e.g. w:, have an argument $OPTARG
+while getopts 'w' opt; do
+    case "$opt" in
+    w)  format='-w'
+        ;;
+    esac
+done
+
+shift $((OPTIND-1))
+
+# tests for double dash, end of options
+# not needed for this humble incantation
+# [ "${1:-}" = "--" ] && shift
+
+if [ -z "$1" ]
+then
+	path="$(cygpath $format "$PWD")"
+	printf '%s' "$path" > /dev/clipboard
+else
+	path="$(cygpath $format "$PWD/$1")"
+	printf '%s' "$path" > /dev/clipboard
+fi

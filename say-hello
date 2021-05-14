@@ -1,0 +1,20 @@
+#!/bin/sh
+
+N=5
+
+say_hello() {
+	printf '%s\n' "hello, world"
+	sleep $N
+}
+
+say_goodbye() {
+	printf '%s\n' "goodbye, world"
+	sleep $N
+}
+
+trap 'say_goodbye' HUP
+while true
+do
+	say_hello &
+	wait
+done
