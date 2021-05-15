@@ -3,13 +3,14 @@
 # ltr: local to remote 
 # translate local path to remote path
 
-local="/home/jfin/rdrive"
+local="/home/jfin/waterboard/rdrive"
 remote="/r/RB3/Shared"
 
-# if root of $PWD is same as $local
-if [ "${1:0:${#local}}"  != "$local"  ] 
-then
-	exit
-else
-	echo -n "$remote${1#$local}"
-fi
+# # if root of $PWD is same as $local
+# if [ "${1:0:${#local}}"  != "$local"  ] 
+# then
+# 	exit
+# else
+# 	echo -n "$remote${1#$local}"
+# fi
+printf "$remote${1#$local}"

@@ -3,7 +3,7 @@
 # rtl, remote to local
 # translate remote path to local path
 
-local="/home/jfin/rdrive"
+local="/home/jfin/waterboard/rdrive"
 remote="/r/RB3/Shared"
 
 # if root of $PWD is same as $remote
