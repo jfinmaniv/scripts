@@ -1,7 +1,0 @@
-#!/bin/sh
-
-for p in $(cat $HOME/.vim/plugins) 
-do 
-    git clone https://github.com/"$p" \
-    $HOME/.vim/pack/plug/start/$(echo "$p" | sed -e 's/.*\///')
-done

@@ -1,5 +1,0 @@
-#!/bin/sh
-
-git clone https://github.com/jfinmaniv/scripts $HOME/scripts
-cd $HOME/scripts
-git checkout obsd
