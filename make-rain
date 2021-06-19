@@ -1,0 +1,14 @@
+#!/bin/sh
+
+cleanup() {
+	rm ~/ffplay.exe.stackdump
+	exit
+}
+
+trap : INT
+trap cleanup QUIT
+
+while true
+do
+	ffplay -nodisp ~/music/rain.mp3
+done
