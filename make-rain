@@ -1,7 +1,10 @@
 #!/bin/sh
 
 cleanup() {
-	rm ~/ffplay.exe.stackdump
+	if [ -n ~/ffplay.exe.stackdump ]
+	then
+		rm ~/ffplay.exe.stackdump
+	fi
 	exit
 }
 
