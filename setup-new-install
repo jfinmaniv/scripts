@@ -15,12 +15,17 @@ doas sh -c 'cat <<- EOF > /etc/X11/xenodm/Xsetup_0
 	/usr/local/bin/feh --no-fehbg --bg-fill '/home/jfin/.wallpaper.jpg' 
 EOF'
 
+doas sh -c 'cat <<- EOF > /etc/sysctl.conf
+	machdep.lidaction=0
+EOF'
+
+# add user to staff
+doas usermod -G staff jfin
+
 # system daemons
 doas rcctl enable apmd
 doas rcctl set apmd flags -A
 
-doas rcctl enable messagebus
- 
 # setup git
 doas pkg_add git--
 git config --global user.name "John Inman"
@@ -75,12 +80,16 @@ do
 		git clone https://github.com/$plug .vim/pack/pack/start/${plug#*/}
 	fi
 done < .vim/plugins
+if [ ! -e .vim/undo ]
+then
+	mkdir .vim/undo
+fi
 
 # set up python
 doas pkg_add python--%3.9
-if [ ! -h /usr/local/python ]
+if [ ! -h /usr/local/bin/python ]
 then
-	doas ln -s /usr/local/python3 /usr/local/python
+	doas ln -s /usr/local/bin/python3 /usr/local/bin/python
 fi
  
 # setup firefox
@@ -90,8 +99,7 @@ doas sysctl kern.audio.record=1
 doas chown jfin /dev/video0
 
 # install other packages
-doas pkg_add feh--
-doas pkg_add terminus-font--
+doas pkg_add feh-- unclutter-- terminus-font--
 # doas pkg_add texlive_texmf-full--
 
 # # pandoc

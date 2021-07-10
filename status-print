@@ -16,30 +16,30 @@ block44='\xe2\x96\x88'
 #}}}
 
 # bar items
-# group {{{
-Group() {
-	var="$(xdotool get_desktop)"
-	if [ $var -eq 0 ]
-	then
-		var=1
-	fi
-	printf '%d' "$var"
-}
-#}}}
-# window{{{
-Win() {
-	var="$(xdotool getactivewindow getwindowname)"
-	if [ "$var" = "statusbar" ]
-	then
-		var=""
-	fi
-	printf '%b' "$var"
-}
-#}}}
+## group {{{
+#Group() {
+#	var="$(xdotool get_desktop)"
+#	if [ $var -eq 0 ]
+#	then
+#		var=1
+#	fi
+#	printf '%d' "$var"
+#}
+##}}}
+## window{{{
+#Win() {
+#	var="$(xdotool getactivewindow getwindowname)"
+#	if [ "$var" = "statusbar" ]
+#	then
+#		var=""
+#	fi
+#	printf '%b' "$var"
+#}
+##}}}
 # network{{{
 Net() {
-	wired=$(ifconfig em0 | awk '/status:/ { print $2 }')
-	signal=$(ifconfig iwm0 | awk '/ieee80211:/ { print $8 }')
+	wired=$(ifconfig re0 | awk '/status:/ { print $2 }')
+	signal=$(ifconfig iwx0 | awk '/ieee80211:/ { print $8 }')
 	sig=${signal%\%}
 	if [ $wired = "active" ]
 	then
@@ -93,7 +93,7 @@ Bat() {
 #}}}
 # time{{{
 Time() {
-	var="$(date '+%H:%M')"
+	var="$(date '+%H:%M') "
 	printf '%s' "$var" 
 }
 #}}}
@@ -102,8 +102,10 @@ Time() {
 trap : HUP #{{{
 while true
 do
-	printf '%s\n' "$(Group):$(Win)%{r}$(Net)$(Bat)$(Time)"
+	# printf '%s\n' "$(Group):$(Win)%{r}$(Net)$(Bat)$(Time)"
+	printf '%s\n' "%{r}$(Net)$(Bat)$(Time)"
 	sleep 60 &
 	wait
 done
 #}}}
+
