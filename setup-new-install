@@ -7,8 +7,6 @@ pacman -Syu --noconfirm
 # list generated via "pacman -Qe"
 pacman -S --noconfirm --needed\
 	base\
-	docx2txt\
-	fzy\
 	git\
 	man-db\
 	mksh\
@@ -16,7 +14,8 @@ pacman -S --noconfirm --needed\
 	python-pip\
 	rsync\
 	tmux\
-	vim\
+	cygutils\
+	vim
 
 # checkout dotfiles into new home dir
 git config --global user.name "John Inman"
@@ -46,3 +45,8 @@ fi
 dot checkout msys
 dot config --local status.showUntrackedFiles no
 dot push --set-upstream origin msys
+
+mkdir .vim/{backup,swap,undo}
+
+# terminus font
+# https://files.ax86.net/terminus-ttf/files/latest-windows.zip
